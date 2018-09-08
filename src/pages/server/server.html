@@ -10,16 +10,10 @@
 <ion-content padding>
 
   <!-- Server info card-->
-  <server-info></server-info>
+  <server-info [serverId]="serverId"></server-info>
 
   <!-- Logs -->
   <ble-logs [logs]="logs" [logsEnabled]="logsEnabled"></ble-logs>
-
-  <h3>BLE Server</h3>
-
-  <p>
-    Your BLE Server ID is: {{serverId}}}
-  </p>
 
   <ion-grid>
     <ion-row>
