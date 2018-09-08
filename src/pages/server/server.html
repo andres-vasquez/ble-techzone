@@ -8,6 +8,13 @@
 </ion-header>
 
 <ion-content padding>
+
+  <!-- Server info card-->
+  <server-info></server-info>
+
+  <!-- Logs -->
+  <ble-logs [logs]="logs" [logsEnabled]="logsEnabled"></ble-logs>
+
   <h3>BLE Server</h3>
 
   <p>

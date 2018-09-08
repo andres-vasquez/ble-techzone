@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {IonicPage, NavController} from 'ionic-angular';
 import {BleServerService} from "../../providers/ble-server-service";
 
+@IonicPage()
 @Component({
   selector: 'page-server',
   templateUrl: 'server.html'

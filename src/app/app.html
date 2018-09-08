@@ -1,23 +1,25 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title color="light">Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button menuClose ion-item (ngModel)="server" (click)="openMenuItem(server)">
-        <!--<ion-icon [name]="server.icon" item-start></ion-icon>-->
-        {{server.title}}
-      </button>
-      <button menuClose ion-item *ngFor="let item of samples" (click)="openMenuItem(p)">
-        <!--<ion-icon [name]="item.icon" item-start></ion-icon>-->
+      <button menuClose ion-item *ngFor="let item of menuItems" (click)="openMenuItem(item)">
         {{item.title}}
       </button>
     </ion-list>
   </ion-content>
-
+  <ion-footer>
+    <ion-item color="primary">
+      By: Andrés Vasquez Agramont
+    </ion-item>
+    <ion-item color="secondary">
+      #TZ2018
+    </ion-item>
+  </ion-footer>
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

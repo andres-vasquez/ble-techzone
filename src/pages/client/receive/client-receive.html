@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Cliente > Recibir</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Server info card-->
+  <server-info></server-info>
+
+  <ion-card>
+    <ion-card-header color="secondary">
+      Ultimo usuario registrado
+    </ion-card-header>
+    <ion-card-content>
+      <button ion-button secondary color="secondary">Verificar dato</button>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-item>
+        <ion-label><p>Mostrar Logs</p></ion-label>
+        <ion-toggle checked="false" [(ngModel)]="logsEnabled"></ion-toggle>
+      </ion-item>
+    </ion-row>
+  </ion-card>
+
+  <!-- Logs -->
+  <ble-logs [logs]="logs" [logsEnabled]="logsEnabled"></ble-logs>
+</ion-content>

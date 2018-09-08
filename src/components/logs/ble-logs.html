@@ -1,0 +1,9 @@
+<ion-card [hidden]="!logsEnabled">
+  <ion-card-header color="secondary">
+    Logs
+    <ion-icon class="pull-right" name="trash" (click)="clearLogs()"></ion-icon>
+  </ion-card-header>
+  <ion-card-content>
+    {{logs}}
+  </ion-card-content>
+</ion-card>

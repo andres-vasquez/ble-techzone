@@ -1,11 +1,8 @@
 export class MenuItem {
-
-  icon: string;
   title: string;
   component: any;
 
-  constructor(icon: string, title: string, component: any) {
-    this.icon = icon;
+  constructor(title: string, component: any) {
     this.title = title;
     this.component = component;
   }
