@@ -46,7 +46,7 @@ export class MyApp {
 
       if (this.platform.is('cordova')) {
         //Init BLEServer listeners
-        this.bleServer.init();
+        this.bleServer.intialize(this.platform.is('android'));
       }
     });
   }

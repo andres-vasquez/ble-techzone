@@ -17,7 +17,17 @@
 
   <ion-grid>
     <ion-row>
-      <button ion-button secondary menuToggle>{{startStopText}}</button>
+      <button ion-button block [color]="bleServer.isAdvertising ? 'danger':'secondary'" (click)="startStopServer()">
+        {{startStopText}}
+      </button>
     </ion-row>
   </ion-grid>
+
+  <ion-list>
+    <ion-item *ngFor="let entry of entries">
+      <h2>{{entry.nickname}}</h2>
+      <h5>{{entry.email}}</h5>
+      <p>Feedback: {{entry.rate}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

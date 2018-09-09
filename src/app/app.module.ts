@@ -14,7 +14,7 @@ import {Ionic2RatingModule} from 'ionic2-rating';
 // Natove components
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {BLE} from '@ionic-native/ble';
+import {BluetoothLE} from '@ionic-native/bluetooth-le';
 // Providers
 import {BleClientService} from '../providers/ble-client-service';
 import {BleServerService} from '../providers/ble-server-service';
@@ -42,7 +42,7 @@ import {BluetoothService} from '../providers/bluetooth-service';
   providers: [
     StatusBar,
     SplashScreen,
-    BLE,
+    BluetoothLE,
     BleClientService,
     BleServerService,
     BluetoothService,
