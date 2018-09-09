@@ -8,4 +8,6 @@ export class Constants {
 
   public static EVENT_KEY_LOGS: string = 'ble:logs';
   public static EVENT_KEY_USER_ACTION: string = 'user:message';
+
+  public static BLE_ADVERTISING_TIMEOUT: number = 180000;
 }

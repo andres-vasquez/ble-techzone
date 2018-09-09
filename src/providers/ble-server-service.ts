@@ -115,9 +115,25 @@ export class BleServerService {
     let params;
 
     if (this.isAndroid) {
-      params = {name: deviceName, service: "1234"};
+      params = {
+        name: deviceName,
+        service: "1234",
+        mode: "balanced",
+        connectable: true,
+        timeout: Constants.BLE_ADVERTISING_TIMEOUT,
+        powerLevel: "high",
+        includeDeviceName: true
+      };
     } else {
-      params = {name: deviceName, services: ["1234"]};
+      params = {
+        name: deviceName,
+        services: ["1234"],
+        mode: "balanced",
+        connectable: true,
+        timeout: Constants.BLE_ADVERTISING_TIMEOUT,
+        powerLevel: "high",
+        includeDeviceName: true
+      };
     }
 
     this.ble.startAdvertising(params).then((status) => {
