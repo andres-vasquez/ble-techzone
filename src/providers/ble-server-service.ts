@@ -35,15 +35,15 @@ export class BleServerService {
     this.ble.initialize({request: true}).then((result) => {
       if (result.status === 'enabled') {
         console.log('BLE initialized successfully');
-        this.events.publish(Constants.EVENT_KEY_LOGS, 'BLE initialized successfully');
+        this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'BLE initialized successfully');
         this.initializePeripheral();
       } else {
-        this.events.publish(Constants.EVENT_KEY_LOGS, 'BLE not initialized');
+        this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'BLE not initialized');
         if (this.platform.is('android')) {
-          this.events.publish(Constants.EVENT_KEY_LOGS, 'Initializing Bluetooth');
+          this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Initializing Bluetooth');
           this.enable();
         } else {
-          this.events.publish(Constants.EVENT_KEY_LOGS, 'Bluetooth is not Enabled');
+          this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Bluetooth is not Enabled');
         }
       }
     });
@@ -66,7 +66,7 @@ export class BleServerService {
     });
 
     observer.subscribe((data: InitializeResult) => {
-      this.events.publish(Constants.EVENT_KEY_LOGS, 'Server status: ' + data.status);
+      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Server status: ' + data.status);
 
       if (data.status === 'enabled') {
         this.addService();
@@ -76,7 +76,7 @@ export class BleServerService {
 
   enable() {
     this.ble.enable().then(() => {
-      this.events.publish(Constants.EVENT_KEY_LOGS, 'Bluetooth enabled!');
+      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Bluetooth enabled!');
       this.intialize(this.isAndroid);
     }, this.errorHander);
   }
@@ -150,7 +150,7 @@ export class BleServerService {
   }
 
   errorHander(error) {
-    console.log('Error', error);
-    this.events.publish(Constants.EVENT_KEY_LOGS, 'Error: ' + error);
+    console.error(error);
+    this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Error: ' + error);
   }
 }

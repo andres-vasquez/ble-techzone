@@ -26,24 +26,37 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-card-header color="secondary">
-      Cliente
-    </ion-card-header>
-    <ion-card-content>
-      <button ion-button secondary color="secondary" (click)="openClientReceive()">Recibir datos</button>
-      <button ion-button secondary color="primary" (click)="openClientSend()">Enviar datos</button>
-      <button ion-button block color="danger" (click)="openClientNotify()">
-        <ion-icon name="bluetooth"></ion-icon>&nbsp; Proximidad</button>
-    </ion-card-content>
-  </ion-card>
-
+  <!-- Server -->
   <ion-card>
     <ion-card-header color="secondary">
       Server
     </ion-card-header>
     <ion-card-content>
-      <button ion-button secondary color="danger" (click)="openServer()">Iniciar server</button>
+      <button ion-button block color="danger" (click)="openServer()">Iniciar server</button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Client -->
+  <ion-card>
+    <ion-card-header color="secondary">
+      Cliente
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button block color="danger" (click)="openClientNotify()">
+            <ion-icon name="bluetooth"></ion-icon>&nbsp; Proximidad
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block color="secondary" (click)="openClientReceive()">Recibir datos</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button block color="primary" (click)="openClientSend()">Enviar datos</button>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>

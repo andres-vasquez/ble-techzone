@@ -2,6 +2,7 @@ import {Component, NgZone} from '@angular/core';
 import {Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {BaseClientPage} from "../base/BaseClientPage";
 import {UserAction} from "../../../models/UserAction";
+import {Constants} from "../../../utils/Constants";
 
 @IonicPage()
 @Component({
@@ -9,6 +10,9 @@ import {UserAction} from "../../../models/UserAction";
   templateUrl: 'client-send.html'
 })
 export class ClientSendPage extends BaseClientPage {
+
+  // Add logType
+  public logType: string = Constants.BLE_EVENT_WRITE;
 
   public inputData: UserAction = new UserAction();
 

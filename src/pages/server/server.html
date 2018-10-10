@@ -12,9 +12,6 @@
   <!-- Server info card-->
   <server-info [serverId]="serverId"></server-info>
 
-  <!-- Logs -->
-  <ble-logs [logs]="logs" [logsEnabled]="logsEnabled"></ble-logs>
-
   <ion-grid>
     <ion-row>
       <button ion-button block [color]="bleServer.isAdvertising ? 'danger':'secondary'" (click)="startStopServer()">
@@ -22,6 +19,9 @@
       </button>
     </ion-row>
   </ion-grid>
+
+  <!-- Logs -->
+  <ble-logs [logType]="logType"></ble-logs>
 
   <ion-list>
     <ion-item *ngFor="let entry of entries">

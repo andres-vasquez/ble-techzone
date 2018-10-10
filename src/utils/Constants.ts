@@ -6,8 +6,14 @@ export class Constants {
   public static SERVER_TEXT_START_ADVERTISING = 'Start advertising';
   public static SERVER_TEXT_STOP_ADVERTISING = 'Stop advertising';
 
-  public static EVENT_KEY_LOGS: string = 'ble:logs';
   public static EVENT_KEY_USER_ACTION: string = 'user:message';
 
+
   public static BLE_ADVERTISING_TIMEOUT: number = 180000;
+
+  public static BLE_EVENT_PREFIX: string = 'ble';
+  public static BLE_EVENT_SERVER: string = 'server';
+  public static BLE_EVENT_READ: string = 'read';
+  public static BLE_EVENT_WRITE: string = 'write';
+  public static BLE_EVENT_RSSI: string = 'rssi';
 }

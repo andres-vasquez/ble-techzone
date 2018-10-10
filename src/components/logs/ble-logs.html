@@ -1,9 +1,15 @@
-<ion-card [hidden]="!logsEnabled">
+<ion-card>
   <ion-card-header color="secondary">
     Logs
+    <ion-toggle class="pull-right" checked="false" (ionChange)="enableDisableLogs()"
+                [(ngModel)]="logsEnabled"></ion-toggle>
     <ion-icon class="pull-right" name="trash" (click)="clearLogs()"></ion-icon>
   </ion-card-header>
   <ion-card-content>
-    {{logs}}
+      <ion-list [virtualScroll]="logs" approxItemHeight="20px">
+        <ion-item *virtualItem="let log">
+          {{log}}
+        </ion-item>
+      </ion-list>
   </ion-card-content>
 </ion-card>

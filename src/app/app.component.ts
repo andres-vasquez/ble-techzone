@@ -29,10 +29,10 @@ export class MyApp {
   ngOnInit() {
     this.menuItems = [
       {title: 'Home', component: HomePage},
-      {title: 'Recibir', component: ClientReceivePage},
-      {title: 'Enviar', component: ClientSendPage},
-      {title: 'Proximidad', component: ClientNotifyPage},
       {title: 'Server', component: ServerPage},
+      {title: 'Proximidad', component: ClientNotifyPage},
+      {title: 'Enviar', component: ClientSendPage},
+      {title: 'Recibir', component: ClientReceivePage},
     ];
     this.initializeApp();
   }

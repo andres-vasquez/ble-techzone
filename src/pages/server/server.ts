@@ -11,6 +11,9 @@ import {UserAction} from "../../models/UserAction";
 })
 export class ServerPage {
 
+  // Add logType
+  public logType: string = Constants.BLE_EVENT_SERVER;
+
   private serverId: number = Constants.DEFAULT_SERVER_ID;
   private logs: string = '';
 
