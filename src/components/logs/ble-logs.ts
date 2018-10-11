@@ -8,7 +8,7 @@ import {Events} from "ionic-angular";
 })
 export class BleLogsComponent implements OnInit {
 
-  public logsEnabled: boolean = true;
+  public logsEnabled: boolean = false;
   public logs: Array<string> = [];
 
   @Input() logType: string = '';
@@ -19,17 +19,6 @@ export class BleLogsComponent implements OnInit {
 
   ngOnInit() {
     this.subscribeEvents();
-
-    const addLog = () => {
-      const message: string = 'ok works';
-      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + this.logType, message);
-      console.log('Sned events');
-
-      setTimeout(() => {
-        addLog();
-      }, 3000);
-    };
-    addLog();
   }
 
   public enableDisableLogs() {

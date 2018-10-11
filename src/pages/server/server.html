@@ -23,11 +23,18 @@
   <!-- Logs -->
   <ble-logs [logType]="logType"></ble-logs>
 
-  <ion-list>
-    <ion-item *ngFor="let entry of entries">
-      <h2>{{entry.nickname}}</h2>
-      <h5>{{entry.email}}</h5>
-      <p>Feedback: {{entry.rate}}</p>
+  <ion-list [virtualScroll]="entries" approxItemHeight="50px">
+    <ion-item *virtualItem="let entry">
+      <ion-card>
+        <ion-card-header>
+          <h2 color="primary">{{entry.email}}</h2>
+        </ion-card-header>
+        <ion-card-content>
+          <h3 ion-text color="danger">{{entry.question}}
+            <ion-icon name="help" color="danger"></ion-icon>
+          </h3>
+        </ion-card-content>
+      </ion-card>
     </ion-item>
   </ion-list>
 </ion-content>

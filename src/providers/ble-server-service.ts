@@ -29,7 +29,10 @@ export class BleServerService {
   constructor(public platform: Platform, public events: Events, private ble: BluetoothLE) {
   }
 
-
+  /**
+   * Initialize BLE for server
+   * @param {boolean} isAndroid
+   */
   intialize(isAndroid: boolean) {
     this.isAndroid = isAndroid;
     this.ble.initialize({request: true}).then((result) => {
@@ -49,9 +52,15 @@ export class BleServerService {
     });
   }
 
+  /**
+   * Initialize peripheral role for device
+   */
   initializePeripheral() {
     let observer = Observable.create((observer: Observer<any>) => {
       let successCallback = function (data) {
+        this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'BluetoothLePlugin: ' +
+          JSON.stringify(data));
+
         console.log('1', data);
         observer.next(data);
       };
@@ -66,14 +75,17 @@ export class BleServerService {
     });
 
     observer.subscribe((data: InitializeResult) => {
-      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Server status: ' + data.status);
-
+      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Server status: ' +
+        JSON.stringify(data));
       if (data.status === 'enabled') {
         this.addService();
       }
     }, error => this.errorHander(error));
   }
 
+  /**
+   * Send enable bluetooth command (Android only)
+   */
   enable() {
     this.ble.enable().then(() => {
       this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Bluetooth enabled!');
@@ -81,17 +93,18 @@ export class BleServerService {
     }, this.errorHander);
   }
 
+  /**
+   * Add gatt service
+   */
   addService() {
     const params = {
-      service: "1234",
+      service: this.ATTENDANCE_SERVICE_UUID,
       characteristics: [
         {
-          uuid: "ABCD",
+          uuid: this.ATTENDANCE_CHAR_SET_UUID,
           permissions: {
             read: true,
             write: true,
-            //readEncryptionRequired: true,
-            //writeEncryptionRequired: true,
           },
           properties: {
             read: true,
@@ -99,25 +112,28 @@ export class BleServerService {
             write: true,
             notify: true,
             indicate: true,
-            //authenticatedSignedWrites: true,
-            //notifyEncryptionRequired: true,
-            //indicateEncryptionRequired: true,
           }
         }
       ]
     };
+
+    // Add service to BLE
     this.ble.addService(params).then((status) => {
       console.log(status);
     }, this.errorHander);
   }
 
+  /**
+   * Start advertising server
+   * @param {string} deviceName
+   */
   startAdvertising(deviceName: string) {
     let params;
 
     if (this.isAndroid) {
       params = {
         name: deviceName,
-        service: "1234",
+        service: this.ATTENDANCE_SERVICE_UUID,
         mode: "balanced",
         connectable: true,
         timeout: Constants.BLE_ADVERTISING_TIMEOUT,
@@ -127,7 +143,7 @@ export class BleServerService {
     } else {
       params = {
         name: deviceName,
-        services: ["1234"],
+        services: [this.ATTENDANCE_SERVICE_UUID],
         mode: "balanced",
         connectable: true,
         timeout: Constants.BLE_ADVERTISING_TIMEOUT,
@@ -138,19 +154,29 @@ export class BleServerService {
 
     this.ble.startAdvertising(params).then((status) => {
       this.isAdvertising = true;
+      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, JSON.stringify(status));
       console.log(status);
     }, this.errorHander)
   }
 
+  /**
+   * Stop advertising server
+   */
   stopAdvertising() {
     this.ble.stopAdvertising().then((status) => {
       this.isAdvertising = false;
+      this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, JSON.stringify(status));
       console.log(status);
     }, this.errorHander);
   }
 
+  /**
+   * Default Error handler for previous methods
+   * @param error
+   */
   errorHander(error) {
     console.error(error);
-    this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Error: ' + error);
+    this.events.publish(Constants.BLE_EVENT_PREFIX + ":" + Constants.BLE_EVENT_SERVER, 'Error: ' +
+      JSON.stringify(error));
   }
 }

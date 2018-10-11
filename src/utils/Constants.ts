@@ -13,6 +13,7 @@ export class Constants {
 
   public static BLE_EVENT_PREFIX: string = 'ble';
   public static BLE_EVENT_SERVER: string = 'server';
+  public static BLE_EVENT_CLIENT: string = 'client';
   public static BLE_EVENT_READ: string = 'read';
   public static BLE_EVENT_WRITE: string = 'write';
   public static BLE_EVENT_RSSI: string = 'rssi';

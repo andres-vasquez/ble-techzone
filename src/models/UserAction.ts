@@ -2,13 +2,12 @@ import {Constants} from "../utils/Constants";
 
 export class UserAction {
 
-  private email: string;
-  private nickname: string;
-  private rate: number;
+  public email: string;
+  public question: string;
 
-  constructor(){
-    this.email = '';
-    this.nickname = '';
-    this.rate = Constants.DEFAULT_RATE;
+
+  constructor(email: string, question: string) {
+    this.email = email;
+    this.question = question;
   }
 }

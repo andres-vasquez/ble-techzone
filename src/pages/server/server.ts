@@ -13,12 +13,14 @@ export class ServerPage {
 
   // Add logType
   public logType: string = Constants.BLE_EVENT_SERVER;
-
   private serverId: number = Constants.DEFAULT_SERVER_ID;
-  private logs: string = '';
 
-  private startStopText: string = '';
+  // List of questions
   private entries: Array<UserAction> = [];
+
+  // Text for start/stop button
+  private startStopText: string = '';
+
 
   constructor(public navCtrl: NavController,
               public events: Events,
@@ -47,6 +49,14 @@ export class ServerPage {
 
   ionViewWillEnter() {
     this.subscribeToBLEServiceEvents();
+
+    /*const addQuestion = () => {
+      const userQuestion = new UserAction('hola@si.com', 'Que hase');
+      this.events.publish(Constants.EVENT_KEY_USER_ACTION, userQuestion);
+      console.log('Event');
+      setTimeout(() => addQuestion(), 4000);
+    };
+    addQuestion();*/
   }
 
   ionViewDidLeave() {
@@ -54,22 +64,14 @@ export class ServerPage {
   }
 
   subscribeToBLEServiceEvents() {
-    this.events.subscribe(Constants.EVENT_KEY_LOGS, (data: string) => {
-      this.ngZone.run(() => {
-        this.logs += data;
-        this.logs += '\n';
-      });
-    });
-
     this.events.subscribe(Constants.EVENT_KEY_USER_ACTION, (data: UserAction) => {
       this.ngZone.run(() => {
-        this.entries.unshift(data);
+        this.entries.push(data);
       });
     });
   }
 
   unsubscribeToBLEServiceEvents() {
-    this.events.unsubscribe(Constants.EVENT_KEY_LOGS);
     this.events.unsubscribe(Constants.EVENT_KEY_USER_ACTION)
   }
 }
