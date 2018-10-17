@@ -8,30 +8,26 @@
 </ion-header>
 
 <ion-content>
+  <ion-segment [ngModel]="tab" (ionChange)="tabChanged($event.value)" color="primary">
+    <ion-segment-button value="list">
+      List
+    </ion-segment-button>
+    <ion-segment-button value="graph">
+      Graph
+    </ion-segment-button>
+  </ion-segment>
 
-  <!-- Server info card-->
-  <server-info [serverId]="serverId"></server-info>
+  <ion-list [hidden]="tab !== 'list'" [virtualScroll]="items" approxItemHeight="20px">
+    <ion-item *virtualItem="let item">
+      {{item.scanStatus.name}}
+      {{item.scanStatus.saddress}}
+      {{item.scanStatus.rssi}}
+      {{item.distance}}
+    </ion-item>
+    </ion-item>
+  </ion-list>
 
-  <ion-card>
-    <ion-card-header color="secondary">
-      Proximidad
-      <ion-icon class="pull-right" name="trash"></ion-icon>
-    </ion-card-header>
-    <ion-card-content>
-
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header color="secondary">
-      Data
-      <ion-icon class="pull-right" name="trash"></ion-icon>
-    </ion-card-header>
-    <ion-card-content>
-
-    </ion-card-content>
-  </ion-card>
-
-  <!-- Logs -->
-  <ble-logs [logType]="logType"></ble-logs>
+  <ion-content [hidden]="tab !== 'graph'">
+    Graph
+  </ion-content>
 </ion-content>

@@ -16,14 +16,6 @@ export class BleServerService {
 
   private isAndroid: boolean = true;
 
-  // UUID: https://www.uuidgenerator.net/
-  //Attendance
-  private ATTENDANCE_SERVICE_NAME = 'Attendance';
-  private ATTENDANCE_SERVICE_UUID = 'AE400001-93FF-4340-AED9-F0C8F25A3796';
-  private ATTENDANCE_CHAR_SET_UUID = 'AE400002-93FF-4340-AED9-F0C8F25A3796';
-  private ATTENDANCE_VALUE_UUID = 2901;
-
-
   public isAdvertising: boolean = false;
 
   constructor(public platform: Platform, public events: Events, private ble: BluetoothLE) {
@@ -71,7 +63,7 @@ export class BleServerService {
 
       //TODO review IonicNative upates
       //Error in the Ionic Native Plugin, Promise mapped as Observable
-      cordova.exec(successCallback, errorCallback, 'BluetoothLePlugin', "initializePeripheral", []);
+      cordova.exec(successCallback.bind(this), errorCallback.bind(this), 'BluetoothLePlugin', "initializePeripheral", []);
     });
 
     observer.subscribe((data: InitializeResult) => {
@@ -98,10 +90,10 @@ export class BleServerService {
    */
   addService() {
     const params = {
-      service: this.ATTENDANCE_SERVICE_UUID,
+      service: Constants.ATTENDANCE_SERVICE_UUID,
       characteristics: [
         {
-          uuid: this.ATTENDANCE_CHAR_SET_UUID,
+          uuid: Constants.ATTENDANCE_CHAR_SET_UUID,
           permissions: {
             read: true,
             write: true,
@@ -133,7 +125,7 @@ export class BleServerService {
     if (this.isAndroid) {
       params = {
         name: deviceName,
-        service: this.ATTENDANCE_SERVICE_UUID,
+        service: Constants.ATTENDANCE_SERVICE_UUID,
         mode: "balanced",
         connectable: true,
         timeout: Constants.BLE_ADVERTISING_TIMEOUT,
@@ -143,7 +135,7 @@ export class BleServerService {
     } else {
       params = {
         name: deviceName,
-        services: [this.ATTENDANCE_SERVICE_UUID],
+        services: [Constants.ATTENDANCE_SERVICE_UUID],
         mode: "balanced",
         connectable: true,
         timeout: Constants.BLE_ADVERTISING_TIMEOUT,

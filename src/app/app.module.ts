@@ -19,6 +19,7 @@ import {BluetoothLE} from '@ionic-native/bluetooth-le';
 import {BleClientService} from '../providers/ble-client-service';
 import {BleServerService} from '../providers/ble-server-service';
 import {BluetoothService} from '../providers/bluetooth-service';
+import 'hammerjs';
 
 
 @NgModule({

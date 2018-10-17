@@ -17,4 +17,12 @@ export class Constants {
   public static BLE_EVENT_READ: string = 'read';
   public static BLE_EVENT_WRITE: string = 'write';
   public static BLE_EVENT_RSSI: string = 'rssi';
+
+
+  // UUID: https://www.uuidgenerator.net/
+  //Attendance
+  public static ATTENDANCE_SERVICE_NAME = 'Attendance';
+  public static ATTENDANCE_SERVICE_UUID = 'AE400001-93FF-4340-AED9-F0C8F25A3796';
+  public static ATTENDANCE_CHAR_SET_UUID = 'AE400002-93FF-4340-AED9-F0C8F25A3796';
+  public static ATTENDANCE_VALUE_UUID = 2901;
 }

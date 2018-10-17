@@ -1,9 +1,10 @@
 import {Component, NgZone} from '@angular/core';
-import {Events, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {BaseClientPage} from "../base/BaseClientPage";
 import {UserAction} from "../../../models/UserAction";
 import {Constants} from "../../../utils/Constants";
 import {BleClientService} from "../../../providers/ble-client-service";
+import {AttendanceBLE} from "../../../models/AttendanceBLE";
 
 @IonicPage()
 @Component({
@@ -14,15 +15,15 @@ export class ClientSendPage extends BaseClientPage {
 
   // Add logType
   public logType: string = Constants.BLE_EVENT_WRITE;
-
   public inputData: UserAction = new UserAction('hola@temp.com', 'Si si');
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public ngZone: NgZone,
-              public clientService: BleClientService) {
-    super(events, ngZone, clientService);
+              public clientService: BleClientService,
+              public loadingCtrl: LoadingController) {
+    super(events, ngZone, clientService, loadingCtrl);
   }
 
   sendData() {
@@ -30,5 +31,12 @@ export class ClientSendPage extends BaseClientPage {
       alert('Introduzca los datos');
       return;
     }
+
+    this.showLoading();
+    this.clientService.writeSequence(String(this.serverId), this.inputData).subscribe(() => {
+      this.hideLoading();
+    }, error => {
+      this.hideLoading();
+    });
   }
 }
