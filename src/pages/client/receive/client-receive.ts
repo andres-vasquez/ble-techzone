@@ -25,7 +25,7 @@ export class ClientReceivePage extends BaseClientPage {
 
   readData() {
     this.showLoading();
-    this.clientService.readSequence(String(this.serverId)).subscribe((result) => {
+    this.clientService.readSequence(Constants.BLE_EVENT_PREFIX + this.serverId).subscribe((result) => {
       this.hideLoading();
     }, error => {
       this.hideLoading();

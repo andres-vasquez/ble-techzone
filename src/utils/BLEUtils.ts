@@ -21,34 +21,18 @@ export class BLEUtils {
     return array.buffer;
   }
 
-  static getDistance(rssi: number, txPower: number, platform: Platform): number {
-    if (platform.is('ios')) {
-      if (rssi == 0) {
-        return -1.0; // if we cannot determine accuracy, return -1.
-      }
+  static getDistance(rssi: number, txPower: number): string {
+    if (rssi == 0) {
+      return -1.0 + 'm'; // if we cannot determine accuracy, return -1.
+    }
 
-      const ratio: number = rssi * 1.0 / txPower;
-      if (ratio < 1.0) {
-        return Math.pow(ratio, 10);
-      }
-      else {
-        const accuracy: number = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
-        return accuracy;
-      }
-    } else {
-      //TODO review for Android
-      if (rssi == 0) {
-        return -1.0; // if we cannot determine accuracy, return -1.
-      }
-
-      const ratio: number = rssi * 1.0 / txPower;
-      if (ratio < 1.0) {
-        return Math.pow(ratio, 10);
-      }
-      else {
-        const accuracy: number = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
-        return accuracy;
-      }
+    const ratio: number = rssi / txPower;
+    if (ratio < 1.0) {
+      return parseFloat("" + Math.pow(ratio, 10)).toFixed(3) + 'm';
+    }
+    else {
+      const accuracy: number = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
+      return parseFloat("" + accuracy).toFixed(3) + 'm';
     }
   }
 

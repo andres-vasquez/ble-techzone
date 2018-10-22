@@ -33,10 +33,9 @@ export class ClientSendPage extends BaseClientPage {
     }
 
     this.showLoading();
-    this.clientService.writeSequence(String(this.serverId), this.inputData).subscribe(() => {
-      this.hideLoading();
-    }, error => {
-      this.hideLoading();
-    });
+    this.clientService.writeSequence(Constants.BLE_EVENT_PREFIX + this.serverId, this.inputData).subscribe(
+      () => this.hideLoading(),
+      (error) => this.hideLoading()
+    );
   }
 }

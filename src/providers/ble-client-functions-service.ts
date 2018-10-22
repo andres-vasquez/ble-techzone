@@ -15,34 +15,42 @@ import {BLEUtils} from "../utils/BLEUtils";
 
 export class BleClientFunctionsService {
 
+  ANDROID_DEFAULT_TX: number = -59;
   SCAN_TIMEOUT: number = 10000; // 10 seconds
+  ACTION_TIMEOUT: number = 30000; // 30 seconds
+
   isScanning: boolean = false;
 
   constructor(public ble: BluetoothLE, public events: Events, public platform: Platform) {
   }
 
-  protected availableBLEdevices(): Observable<AttendanceBLE> {
+  protected availableBLEdevices(onlyAttendanceDevices?: boolean): Observable<AttendanceBLE> {
     return Observable.create((observer: Observer<AttendanceBLE>) => {
       this.startScanBLE().subscribe((scanStatus: ScanStatus) => {
+        if (scanStatus.name) {
+          let device: AttendanceBLE;
+          if (onlyAttendanceDevices) {
+            if (scanStatus.name.toUpperCase().indexOf('BLE') > -1) {
+              device = {
+                scanStatus: scanStatus,
+                distance: BLEUtils.getDistance(scanStatus.rssi, (typeof scanStatus.advertisement !== "string") ? scanStatus.advertisement.txPowerLevel : this.ANDROID_DEFAULT_TX),
+                isAttendanceServer: BLEUtils.isAttenceServer(scanStatus)
+              };
+            }
+          } else {
+            device = {
+              scanStatus: scanStatus,
+              distance: BLEUtils.getDistance(scanStatus.rssi, (typeof scanStatus.advertisement !== "string") ? scanStatus.advertisement.txPowerLevel : this.ANDROID_DEFAULT_TX),
+              isAttendanceServer: false
+            };
+          }
 
-        if (typeof scanStatus.advertisement === "string") {
-          const advertisingBytes = this.ble.encodedStringToBytes(scanStatus.advertisement);
-          console.log(advertisingBytes);
-          console.log(advertisingBytes.toString());
+          if (device) {
+            observer.next(device);
+          }
         }
-
-        if (scanStatus.name.indexOf('1000')) {
-          console.log(scanStatus);
-        }
-
-        const device: AttendanceBLE = {
-          scanStatus: scanStatus,
-          distance: BLEUtils.getDistance(scanStatus.rssi,
-            (typeof scanStatus.advertisement !== "string") ? scanStatus.advertisement.txPowerLevel : 0,
-            this.platform),
-          isAttendanceServer: BLEUtils.isAttenceServer(scanStatus)
-        };
-        observer.next(device);
+      }, (error) => {
+        this.errorHander(error, observer);
       });
 
       //  Stop scan after some seconds
@@ -180,8 +188,10 @@ export class BleClientFunctionsService {
    */
   protected baseSequence(serverName: string, userData?: UserAction): Observable<any> {
     return Observable.create((observer: Observer<any>) => {
-      this.availableBLEdevices().subscribe((attendanceDevice: AttendanceBLE) => {
-        if (attendanceDevice.scanStatus.name.indexOf(serverName)) {
+      setTimeout(() => observer.error('Action timeout'), this.ACTION_TIMEOUT);
+
+      this.availableBLEdevices(true).subscribe((attendanceDevice: AttendanceBLE) => {
+        if (attendanceDevice.scanStatus.name.toUpperCase().indexOf(serverName.toUpperCase()) > -1) {
           this.stopScanBLE();
 
           // Connect

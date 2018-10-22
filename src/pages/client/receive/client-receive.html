@@ -17,7 +17,8 @@
       Ultimo usuario registrado
     </ion-card-header>
     <ion-card-content>
-      <button ion-button secondary color="secondary" (click)="readData()">Verificar dato</button>
+      <button ion-button secondary color="secondary" (click)="readData()" [disabled]="loading">Verificar dato</button>
+      <ion-spinner icon="lines" class="spinner-calm pull-right" *ngIf="loading"></ion-spinner>
     </ion-card-content>
   </ion-card>
 

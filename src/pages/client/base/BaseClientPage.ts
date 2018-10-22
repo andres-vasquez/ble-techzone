@@ -5,7 +5,7 @@ import {BleClientService} from "../../../providers/ble-client-service";
 
 export class BaseClientPage {
   public serverId: number = Constants.DEFAULT_SERVER_ID;
-  public loading;
+  public loading: boolean;
 
   constructor(public events: Events,
               public ngZone: NgZone,
@@ -18,20 +18,17 @@ export class BaseClientPage {
    * Show loading
    */
   protected showLoading() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'hide',
-      content: 'Loading Please Wait...'
+    this.ngZone.run(()=>{
+      this.loading = true;
     });
-
-    this.loading.present();
   }
 
   /**
    * Dismiss loading
    */
   protected hideLoading(){
-    if(this.loading){
-      this.loading.dismiss();
-    }
+    this.ngZone.run(()=>{
+      this.loading = false;
+    });
   }
 }

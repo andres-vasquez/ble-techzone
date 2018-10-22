@@ -4,6 +4,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Cliente > Suscribir</ion-title>
+    <button ion-button right>
+      <ion-icon name="refresh"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
@@ -19,11 +22,18 @@
 
   <ion-list [hidden]="tab !== 'list'" [virtualScroll]="items" approxItemHeight="20px">
     <ion-item *virtualItem="let item">
-      {{item.scanStatus.name}}
-      {{item.scanStatus.saddress}}
-      {{item.scanStatus.rssi}}
-      {{item.distance}}
-    </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-9>
+            <h3>{{item.scanStatus.name}}</h3>
+            <p>{{item.scanStatus.address}}</p>
+          </ion-col>
+          <ion-col col-3>
+            <h3>{{item.distance}}</h3>
+            <p>{{item.scanStatus.rssi}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
   </ion-list>
 
